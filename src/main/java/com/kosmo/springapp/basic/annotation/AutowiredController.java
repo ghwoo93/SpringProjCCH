@@ -1,6 +1,7 @@
 package com.kosmo.springapp.basic.annotation;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -45,8 +46,10 @@ public class AutowiredController {
 	
 	//주로 속성에 붙이면 된다
 	@Autowired(required = false)
+	@Qualifier("fCommand")
 	private Command fCommand;
 	@Autowired
+	@Qualifier("sCommand")
 	private Command sCommand;
 	/*
 	//굳이 세터까지 만들 필요는 없다. 받은 가공할 필요가 없는 경우

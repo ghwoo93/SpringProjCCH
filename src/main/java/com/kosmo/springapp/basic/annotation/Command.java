@@ -1,8 +1,9 @@
 package com.kosmo.springapp.basic.annotation;
 
-
+import org.springframework.stereotype.Component;
 
 //[스프링에서는 DTO계열 클래스를 커맨드 객체라 한다.]
+
 
 public class Command {
 	/*※폼의 파라미터명과 속성(멤버변수)을 일치시켜야한다.

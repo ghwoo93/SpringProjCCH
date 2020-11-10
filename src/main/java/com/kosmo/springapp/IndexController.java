@@ -49,4 +49,19 @@ public class IndexController {
 		//뷰정보 반환]
 		return "annotation06/Annotation";
 	}/////////////
+	@RequestMapping("/database.do")
+	public String database() {
+		//뷰정보 반환]
+		return "database07/Database";
+	}/////////////
+	@RequestMapping("/resource.do")
+	public String resource() {
+		//뷰정보 반환]
+		return "resource08/Resource";
+	}/////////////
+	@RequestMapping("/validation.do")
+	public String validation() {
+		//뷰정보 반환]
+		return "validation09/Validation";
+	}/////////////
 }

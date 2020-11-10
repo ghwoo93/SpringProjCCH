@@ -2,7 +2,37 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd">
-	
+
 	<!-- Root Context: defines shared resources visible to all other web components -->
+	<!-- 각 디스패처 서블릿에 의해 생성된 WebApplicationContext영역(컨텍스트 영역)에서 공통으로 사용할 빈 등록 -->
+	<!-- Spring JDBC API사용 -->
+	<!-- 데이타베이스 연결이 필요한 클래스(빈)에 DataSource를 주입하기 위한 bean등록 -->
+	<!-- server.xml에 등록한 JNDI명으로 DataSource를 얻기 위한 설정은 의미 없다. -즉 <GlobalNamingResources>와 
+		<ResourceLinK>태그에 등록한 설정은 의미 없다. -->
+	<!--  DataSource using Spring JDBC -->
+	<bean id="dataSourceByJDBC" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="oracle.jdbc.OracleDriver"/>
+		<property name="url" value="jdbc:oracle:thin:@127.0.0.1:1521:orcl"/>
+		<property name="username" value="maven"/>
+		<property name="password" value="maven"/>
+	</bean>
+	<!-- 스프링의 JNDI사용(커넥션 풀 사용) -->  
+	<!--  DataSource using Spring JNDI -->
+	<bean id="dataSourceByJNDI" class="org.springframework.jndi.JndiObjectFactoryBean">
+		<!-- 
+        value속성:server.xml이나 context.xml의 <Context>태그 안의
+        <ResourceLink global="" name="" type="">태그의
+        name속성에 지정한 이름
+         --> 
+		<property name="jndiName" value="spring/maven"/>
+		<!-- 
+     	아래 속성(resourceRef)을 사용하지 않은 경우(디폴트 false)
+               위의 jndiName속성의 값으로
+               해당 WAS서버의 루트 디렉토리까지 적어줘야 한다
+               예]java:/comp/env/spring/maven
+     	-->  
+		<property name="resourceRef" value="true"/>
+	</bean>
+	
 		
 </beans>

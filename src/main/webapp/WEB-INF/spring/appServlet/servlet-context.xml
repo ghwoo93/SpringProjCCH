@@ -12,6 +12,16 @@
 		infrastructure -->
 
 	<!-- Enables the Spring MVC @Controller programming model -->
+	<!-- 
+		- 스프링 MVC 컴포넌트들을 디폴트 설정을 통해  활성화
+		- @Controllers가 붙은 클래스 즉 컨트롤러 에게 요청을 전달하기위해  요구되는  HandlerMapping 와  HandlerAdapter 를 빈으로 등록
+		  HandlerMapping : 사용자 요청 정보를 이용해서 컨트롤러를 찾아주는 기능 수행
+		  HandlerAdapter : HandlerMapping을 통해 찾은 컨트롤러를 직접 실행하는 기능을 수행
+		- 기타 클래스 패스상에 존재하는것에 기반한 아래와 같은 어떤 디폴트 작업을 수행
+		    예를들면 Support for reading and writing JSON, if Jackson is on the classpath
+		        Support for validating @Controller inputs with @Valid, if a JSR-303 Provider is on the classpath등
+
+	 -->
 	<annotation-driven />
 
 	<!-- Handles HTTP GET requests for /resources/** by efficiently serving 
@@ -55,7 +65,18 @@
 	 @Service : 서비스 역할을 하는 클래스
 	 @Repository:DAO계열 클래스
 	 @Component:기타 클래스
+	 
+	 -스프링 2.5 버전에서 등장.이전 버전의 스프링에서는 모든 빈들은 XML 파일에 설정해야함.  
+	 -최 상위 패키지 안의 클래스들을 스캔하고 위 어노테이션이 붙은 클래스들의 인스턴스를 생성
+	 -@Autowired 와 @Qualifier 어노테이션을 활성화
+	 -annotation-config선언 불필요
+	 
+	 
+	   ※<context:annotation-config>
+	 -ApplicationContext 안에 이미 등록된 Bean들의 Annotation을 활성화(@Autowired 및 @Resource등)하기 위해 사용
+	 -component-scan과의 차이점은 이 설정은 빈을 생성하지는 않는다
 	  --> 
+	 
 	<context:component-scan	base-package="com.kosmo.springapp" />
 	<!--  
 	<beans:bean class="com.kosmo.springapp.HomeController"/> 
@@ -133,7 +154,86 @@
 	</beans:bean>	
 	
 	<beans:bean id="personDefault"  class="com.kosmo.springapp.basic.injection.Person"/>
-	<!-- @Autowired  -->
+	<!-- @Autowired : 타입-> id->Qualifier -->
+	 <!-- 어노테이션을 위한 빈 -->
+	  <!-- 와이어링(설정파일에서 대상 클래스에 객체를 주입하는 과정) 대상 객체 빈 등록 -->
+	<!-- 타입이 여러개인 경우 id로 찾아서 주입 --> 
+	<!--  
 	<beans:bean p:name="가길동" p:years="20" id="fCommand" class="com.kosmo.springapp.basic.annotation.Command"/>
 	<beans:bean p:name="나길동" p:years="30" id="sCommand" class="com.kosmo.springapp.basic.annotation.Command"/>
+	-->
+	<!-- id가 없는 경우 Qualifier로 찾아서 주입 -->
+	
+	<beans:bean p:name="가길동" p:years="20"  class="com.kosmo.springapp.basic.annotation.Command">
+		<beans:qualifier value="fCommand"/>
+	</beans:bean>
+	<beans:bean p:name="나길동" p:years="30"  class="com.kosmo.springapp.basic.annotation.Command">
+		<beans:qualifier value="sCommand"/>
+	</beans:bean>
+	
+	<!-- @Resource :id-> 타입->Qualifier-->
+	
+	<beans:bean id="fCommand" p:name="다길동" p:years="40"  class="com.kosmo.springapp.basic.annotation.Command">
+		<beans:qualifier value="fCommand"/>
+	</beans:bean>
+	<beans:bean id="sCommand" p:name="라길동" p:years="50"  class="com.kosmo.springapp.basic.annotation.Command">
+		<beans:qualifier value="sCommand"/>
+	</beans:bean>
+	
+	<!-- 
+	  [리소스파일에 등록한 키값 사용하기]
+	  -설정파일(XML)에서 EL표현식을 사용해서 읽을 수 있다.
+	    단,EL식 사용시 빈 공백 없어야 한다 ${키값 }[X]
+	   
+	  1]src밑에 파일명.properties파일 생성(파일명은 임의로)
+	  2]빈 설정파일에 PropertyPlaceholderConfigurer를
+	    등록하거나 property-placeholder를 context접두어 등록
+	    
+	    1]에서등록한 리소스파일의 위치를 
+	    locations혹은 location(property-placeholder일때)
+	        속성을 통해서 설정해 준다
+	    
+	  3]빈 설정 파일에 등록한 빈에 키값을 주입하기 위해
+	    setter인젝션 사용.
+	        값 설정시에는 EL식으로(단, 공백 없어야 함) 
+	 -->
+	<!-- context접두어 사용(리소스파일이 여러개인 경우    ,(콤마)로 구분해서 나열) -->
+	<context:property-placeholder location="classpath:resc.properties,classpath:sub/resc.properties"/>
+	<!-- 컨트롤러에 주입할 커맨드객체(DTO계열) 빈 등록-세터 인젝션을 통해 초기화 --> 
+	<beans:bean id="command" p:name="${name}" class="com.kosmo.springapp.basic.resource.UserCommand">
+		<beans:property name="user" value="${user}"/>
+		<beans:property name="pass" value="${pass}"/>
+	</beans:bean>
+	
+	<!-- 
+ 	실제 유효성 검증을 하는 빈 객체:Validator
+ 	 -->
+ 	<beans:bean id="validator" class="com.kosmo.springapp.basic.validation.FormValidator"/>
+ 	<!-- 유효성 검증을 위한 스프링에서 제공하는 빈 등록(에러메시지 출력하기위함) -->
+	<!-- id값은 내부적으로 프렘임워크가 
+         messageSource으로 
+                 사용함으로
+                 반드시 id에 messageSource값으로 설정
+ 	--> 
+ 	<beans:bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+ 		<!-- 
+ 		 src 밑이나 WEB-INF 밑에 에러메시지를 저장한 
+		 properties파일명(확장자를 생략한) 
+		 
+		 키값=에러메시지
+		 
+		 키값은   에러코드.커맨드객체명.속성 = 에러 내용
+ 				 단,커맨드 객체명은 소문자로
+		 
+		 에러코드는 rejectValue("속성","에러코드")에 설정한
+		 에러코드값
+		 예]nameError.formCommand.name
+		 -->
+		 <beans:property name="basenames">
+		 	<beans:list>
+		 		<beans:value>com/kosmo/springapp/basic/validation/ErrorMessage</beans:value>
+		 	</beans:list>		 
+		 </beans:property>
+ 	
+ 	</beans:bean>
 </beans:beans>

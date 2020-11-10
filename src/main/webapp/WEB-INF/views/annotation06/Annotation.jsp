@@ -1,5 +1,5 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ page session="false" contentType="text/html; charset=UTF-8"
+<%@ page  contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
@@ -180,15 +180,52 @@ body {
 					</table>
 				</form>
 			</fieldset>
-			<hr/>
+			<hr />
 			<fieldset>
 				<legend>DI와 관련된 어노테이션들 ${message !=null ? message :""}</legend>
 				<ul style="list-style: decimal;">
 					<li><a href="<c:url value="/Annotation/Autowired.do"/>">@Autowired</a></li>
 					<li><a href="<c:url value="/Annotation/Resource.do"/>">@Resource</a></li>
-				</ul>		
-			
+				</ul>
 			</fieldset>
+
+			<hr />
+			<fieldset>
+				<legend>기타 어노테이션들</legend>
+				<h4>@SessionAttribute</h4>
+				<span style="color: red; font-size: 1.4em">${requestScope.errorMessage}</span>
+				\${sessionScope.loginCommand  } : ${sessionScope.loginCommand}
+				
+				<c:if test="${empty sessionScope.loginCommand }" var="isNotLogin">
+				
+				<%-- 	
+				<c:if test="${empty sessionScope.user }" var="isNotLogin">
+				--%>
+					<form method="post"	action='<c:url value="/Annotation/SessionAttributeLogin.do"/>'>
+						아이디 <input type="text" name="user" /> 
+						비번 <input type="password" name="pass" /> 
+						<input type="submit" value="로그인" />
+					</form>
+				</c:if>
+				<c:if test="${not isNotLogin}">
+					세션영역:${sessionScope.user}${sessionScope.loginCommand.user}<br />
+					리퀘스트 영역:${requestScope.user}<br />
+			
+					${sessionScope.user}${sessionScope.loginCommand.user}님 즐감하세요!!!<br />
+					<a href="<c:url value="/Annotation/SessionAttributeLogout.do"/>">로그아웃</a>
+				</c:if>
+				<br /> 
+				<a href="<c:url value="/Annotation/isLogin.do"/>">로그인 여부 판단</a><br /> 				
+				<ul>
+					<li>서블릿 API(HttpSession사용시) :${isLoginMessage }</li>
+					<li>@SessionAttribute사용시 :${isLoginMessage }</li>
+				</ul>
+				<h4><a href="<c:url value="/Annotation/ResponseBody.do"/>">@ResponseBody</a></h4>
+				<h4><a href="<c:url value="/Annotation/RequestHeader.do"/>">@RequestHeader</a></h4>
+				${referer}
+			</fieldset>
+
+
 
 
 		</fieldset>
