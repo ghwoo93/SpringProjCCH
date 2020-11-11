@@ -2,6 +2,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd">
+	
 
 	<!-- Root Context: defines shared resources visible to all other web components -->
 	<!-- 각 디스패처 서블릿에 의해 생성된 WebApplicationContext영역(컨텍스트 영역)에서 공통으로 사용할 빈 등록 -->
@@ -33,6 +34,17 @@
      	-->  
 		<property name="resourceRef" value="true"/>
 	</bean>
-	
+	<!-- 마이바티스 지원을 위한 빈 등록 -->
+	<!-- 1]SqlSessionFactory -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<!-- 데이타소스:데이타베이스 연결정보 -->
+		<property name="dataSource" ref="dataSourceByJNDI"/>
+		<!-- 환경설정 파일 위치 설정 -->
+		<property name="configLocation" value="classpath:com/kosmo/springapp/onememo/mybatis/configuration.xml"/>
+	</bean>
+	<!-- 2]SqlSessionTemplate -->
+	<bean id="template" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg ref="sqlSessionFactory"/>
+	</bean>
 		
 </beans>
