@@ -6,7 +6,7 @@ import java.util.Date;
 
 import org.springframework.stereotype.Component;
 
-@Component("commonUtils")
+
 public class CommonUtilities {
 	//[멤버변수]
 	private int value;
