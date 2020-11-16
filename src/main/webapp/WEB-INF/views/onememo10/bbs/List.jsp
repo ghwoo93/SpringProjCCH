@@ -1,7 +1,10 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ page contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
+<%--@ include file="/WEB-INF/views/common/IsLogin.jsp" --%>
+<!-- REST API서버 테스트용 -->
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -23,49 +26,10 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
 
-<style>
-body {
-	padding-top: 70px;
-}
-</style>
 </head>
 <body>
 	<!--상단메뉴 시작-->
-	<nav class="navbar navbar-default navbar-fixed-top navbar-inverse">
-		<div class="container-fluid">
-			<!--화면 크기가 작을때 보여지는 네비게이션바(모바일용)  -->
-			<div class="navbar-header">
-				<button type="button" class="navbar-toggle collapsed"
-					data-toggle="collapse" data-target="#collapse-menu">
-					<span class="icon-bar"></span> <span class="icon-bar"></span> <span
-						class="icon-bar"></span>
-				</button>
-				<a class="navbar-brand" href='<c:url value="/"/>'><span
-					class="glyphicon glyphicon-education"></span> KOSMO</a>
-			</div>
-			<!-- 화면 크기가 클때 상단에 보여지는 메뉴(데스크탑용) -->
-			<div class="collapse navbar-collapse" id="collapse-menu">
-				<!-- 네비게이션바에 폼 추가 -->
-				<form class="navbar-form navbar-right">
-					<div class="form-group">
-						<input type="text" class="form-control" placeholder="검색">
-					</div>
-					<button type="submit" class="btn btn-info">확인</button>
-				</form>
-				<ul class="nav navbar-nav navbar-right">
-					<li><a href="<c:url value="/"/>">HOME</a></li>
-					<c:if test="${empty sessionScope.id}" var="isNotlogin">
-						<li><a href="<c:url value="/OneMemo/Auth/Login.do"/>">로그인</a></li>
-					</c:if>
-					<c:if test="${not isNotlogin }">
-						<li><a href="javascript:logout()">로그아웃</a></li>
-					</c:if>
-					<li><a href="<c:url value="/OneMemo/BBS/List.do"/>">한줄 댓글 게시판</a></li>
-					<li><a href="#">공지사항</a></li>
-				</ul>
-			</div>
-		</div>
-	</nav>
+	<%@ include file="/WEB-INF/views/templates/Top.jsp"%>
 	<!--  상단 메뉴 끝 -->
 	<div class="container">
 		<!-- 점보트론(Jumbotron) -->
@@ -77,7 +41,7 @@ body {
 		<!-- 작성하기 버튼 -->
 		<div class="row">
 			<div class="col-md-12 text-right">
-				<a href="<c:url value="/DataRoom/Write.kosmo"/>"
+				<a href="<c:url value="/OneMemo/BBS/Write.do"/>"
 					class="btn btn-success">등록</a>
 			</div>
 		</div>
@@ -93,13 +57,11 @@ body {
 						<th class="col-md-1 text-center">번호</th>
 						<th class="text-center">제목</th>
 						<th class="col-md-1 text-center">작성자</th>
-						<th class="col-md-2 text-center">첨부파일</th>
-						<th class="col-md-1 text-center">다운로드</th>
-						<th class="col-md-2 text-center">등록일</th>
+						<th class="col-md-2 text-center">작성일</th>
 					</tr>
 					<c:if test="${empty list }" var="isEmpty">
 						<tr>
-							<td colspan="6">등록된 게시물이 없어요</td>
+							<td colspan="4">등록된 게시물이 없어요</td>
 						</tr>
 					</c:if>
 					<c:if test="${!isEmpty}">
@@ -107,11 +69,9 @@ body {
 							<tr>
 								<td>${totalRecordCount - (((nowPage - 1) * pageSize) + loop.index)}</td>
 								<td class="text-left"><a
-									href="<c:url value='/DataRoom/View.kosmo?no=${item.no}&nowPage='/><c:out value='${param.nowPage}' default='1'/>">${item.title }</a></td>
+									href="<c:url value='/OneMemo/BBS/View.do?no=${item.no}&nowPage='/><c:out value='${param.nowPage}' default='1'/>">${item.title }</a>
+									<span class="badge">${item.commentCount}</span></td>
 								<td>${item.name}</td>
-								<td class="attachfile"><a class="downfile${loop.count}"
-									href="<c:url value="/DataRoom/Download.kosmo?filename=${item.attachFile}&no=${item.no}"/>">${item.attachFile}</a></td>
-								<td id="downcount${loop.count}">${item.downCount}</td>
 								<td>${item.postDate}</td>
 							</tr>
 						</c:forEach>
@@ -125,25 +85,32 @@ body {
 		<div class="row">
 			<div class="col-md-12 text-center">${pagingString }</div>
 		</div>
+		<!-- 검색용 UI -->
+		<div class="row">
+			<div class="text-center">
+				<form class="form-inline" method="post"
+					action="<c:url value='/OneMemo/BBS/List.do'/>">
+					<div class="form-group">
+						<select name="searchColumn" class="form-control">
+							<option value="title">제목</option>
+							<option value="name">작성자</option>
+							<option value="content">내용</option>
+						</select>
+					</div>
+					<div class="form-group">
+						<input type="text" name="searchWord" class="form-control" />
+					</div>
+					<button type="submit" class="btn btn-primary">검색</button>
+
+				</form>
+			</div>
+		</div>
 	</div>
 	<!-- container -->
+	<!-- 푸터 시작 -->
+	<%@ include file="/WEB-INF/views/templates/Footer.jsp"%>
+	<!-- 푸터 끝 -->
 
-
-
-
-	<!-- jQuery (부트스트랩의 자바스크립트 플러그인을 위해 필요합니다) -->
-	<script
-		src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-	<!-- 모든 컴파일된 플러그인을 포함합니다 (아래), 원하지 않는다면 필요한 각각의 파일을 포함하세요 -->
-	<script
-		src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
-
-
-	<script>
-		function logout(){
-			location.replace("<c:url value="/OneMemo/Auth/Logout.do"/>");
-		}	
-	</script>
 
 </body>
 </html>

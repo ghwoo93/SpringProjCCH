@@ -10,6 +10,12 @@ import org.springframework.stereotype.Service;
 import com.kosmo.springapp.onememo.service.OneMemoDTO;
 import com.kosmo.springapp.onememo.service.OneMemoService;
 
+/*
+ * 이름 미 지정시 ID값은 소문자로 시작하는 클래스명이됨
+ * 예]OneMemoServiceImpl클래인 경우 
+ * ID값은 oneMemoServiceImpl
+ * 지정도 가능 @Service("임의의ID값")
+ */
 @Service("memoService")
 public class OneMemoServiceImpl implements OneMemoService {
 	
