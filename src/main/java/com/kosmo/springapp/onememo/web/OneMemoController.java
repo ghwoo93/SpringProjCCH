@@ -49,27 +49,20 @@ public class OneMemoController {
 		return "onememo10/member/Login";
 	}
 	
-<<<<<<< HEAD
 	//리소스파일(onememo.properties)에서 읽어오기
 	@Value("${PAGE_SIZE}")
 	private int pageSize;
 	@Value("${BLOCK_PAGE}")
 	private int blockPage;
 	
-=======
->>>>>>> branch 'main' of https://github.com/suggom/SpringProjCCH.git
 	//목록 처리]
 	@RequestMapping("List.do")
 	public String list(
 			@ModelAttribute("id") String id,//세션영역에서 id가져오기-isLogin.jsp파일 사용시 불필요
-<<<<<<< HEAD
 			@RequestParam Map map,
 			@RequestParam(required = false,defaultValue = "1") int nowPage,
 			HttpServletRequest req,//컨텍스트 루트 얻기용
 			Model model){
-=======
-			@RequestParam Map map,Model model){
->>>>>>> branch 'main' of https://github.com/suggom/SpringProjCCH.git
 		//서비스 호출]
 		//페이징을 위한 로직 시작]
 		//전체 레코드수	

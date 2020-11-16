@@ -29,11 +29,7 @@
 </head>
 <body>
 	<!--상단메뉴 시작-->
-<<<<<<< HEAD
 	<%@ include file="/WEB-INF/views/templates/Top.jsp"%>
-=======
-	<%@ include file="/WEB-INF/views/templates/Top.jsp" %>
->>>>>>> branch 'main' of https://github.com/suggom/SpringProjCCH.git
 	<!--  상단 메뉴 끝 -->
 	<div class="container">
 		<!-- 점보트론(Jumbotron) -->
@@ -73,14 +69,9 @@
 							<tr>
 								<td>${totalRecordCount - (((nowPage - 1) * pageSize) + loop.index)}</td>
 								<td class="text-left"><a
-<<<<<<< HEAD
 									href="<c:url value='/OneMemo/BBS/View.do?no=${item.no}&nowPage='/><c:out value='${param.nowPage}' default='1'/>">${item.title }</a>
 									<span class="badge">${item.commentCount}</span></td>
 								<td>${item.name}</td>
-=======
-									href="<c:url value='/OneMemo/BBS/View.do?no=${item.no}&nowPage='/><c:out value='${param.nowPage}' default='1'/>">${item.title }</a></td>
-								<td>${item.name}</td>							
->>>>>>> branch 'main' of https://github.com/suggom/SpringProjCCH.git
 								<td>${item.postDate}</td>
 							</tr>
 						</c:forEach>
@@ -117,15 +108,9 @@
 	</div>
 	<!-- container -->
 	<!-- 푸터 시작 -->
-<<<<<<< HEAD
 	<%@ include file="/WEB-INF/views/templates/Footer.jsp"%>
 	<!-- 푸터 끝 -->
 
-=======
-	<%@ include file="/WEB-INF/views/templates/Footer.jsp" %>
-	<!-- 푸터 끝 -->
-	
->>>>>>> branch 'main' of https://github.com/suggom/SpringProjCCH.git
 
 </body>
 </html>
