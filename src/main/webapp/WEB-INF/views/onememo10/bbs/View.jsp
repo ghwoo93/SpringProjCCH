@@ -161,6 +161,7 @@
 					$('#title').val('');
 					$('#title').focus();
 					//글 수정후 등록버튼으로 다시 교체하기
+<<<<<<< HEAD
 					if($('#submit').val()=='수정') $('#submit').val('등록');
 						
 				}		
@@ -239,6 +240,57 @@
 			
 			
 			
+=======
+				}		
+				
+			});	
+				
+		});/////////////////
+		//현재 글번호에 대한 모든 댓글을 요청하는 함수
+		function showComments(){
+			$.ajax({
+				url:"<c:url value='/OneMemo/Comment/List.do'/>",
+				data:{"no":"${record.no}","_csrf":"${_csrf.token}"},
+				dataType:'json',
+				type:'post',
+				success:showComments_,
+				error:function(e){console.log(e);}
+				
+			});
+			
+			
+			
+		}//////////////showComments
+		//실제 댓글 목록을 뿌려주는 함수]
+		function showComments_(data){
+			console.log('코멘트 목록:',data);
+			var comments ="<h2>한줄 댓글 목록</h2>";
+			comments+="<table class='table table-bordered'>";
+			comments+="<tr><th class='text-center col-md-2'>작성자</th><th class='text-center'>코멘트</th><th class='text-center col-md-2'>작성일</th><th class='text-center col-md-1'>삭제</th></tr>";
+			if(data.length == 0){
+				comments+="<tr><td colspan='4'>등록된 한줄 댓글이 없어요</td></tr>";
+			}
+			$.each(data,function(index,element){
+				comments+="<tr><td>"+element['NAME']+'</td>';
+				if("${sessionScope.id}" == element['ID'])//씨큐리티 미 사용시
+					comments+="<td class='text-left'><span class='commentEdit' title='"+element['CNO']+"' style='cursor:pointer'>"+element['LINECOMMENT']+'</span></td>';
+				else 
+					comments+="<td class='text-left'>"+element['LINECOMMENT']+"</td>";
+				
+					
+				comments+="<td>"+element['CPOSTDATE']+"</td>";
+				comments+="<td>";
+				if("${sessionScope.id}" == element['ID'])
+					comments+="<span class='commentDelete' title='"+element['CNO']+"' style='cursor:pointer'>삭제</span></td>";
+				else
+					comments+="<span style='color:gray;font-size:.7em'>삭제불가</span>";
+				comments+="</td></tr>";
+			});
+			
+			comments+="</table>";
+			
+			$('#comments').html(comments);
+>>>>>>> branch 'main' of https://github.com/suggom/SpringProjCCH.git
 		}////////////////////	
 		function isDelete(){
 			if(confirm("정말로 삭제 하시겠습니까?")){

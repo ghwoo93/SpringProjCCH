@@ -52,6 +52,7 @@ public class CommentController {
 			comment.put("CPOSTDATE", comment.get("CPOSTDATE").toString().substring(0,10));
 		return JSONArray.toJSONString(list);
 	}////////////
+<<<<<<< HEAD
 	//코멘트 수정처리]
 	@ResponseBody
 	@RequestMapping(value="Edit.do",produces = "text/html; charset=UTF-8")
@@ -72,5 +73,7 @@ public class CommentController {
 		return String.format("%s",map.get("cno").toString());
 		
 	}
+=======
+>>>>>>> branch 'main' of https://github.com/suggom/SpringProjCCH.git
 	
 }///////////////

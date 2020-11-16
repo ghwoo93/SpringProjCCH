@@ -23,6 +23,7 @@
 	 	SELECT m.*,name 
 	 	FROM memoComment m JOIN member me ON m.id=me.id
 	 	WHERE m.no= #{no}
+<<<<<<< HEAD
 	 	ORDER BY cno DESC	 
 	 </select>
 	 <update id="commentUpdate" parameterType="java.util.Map">
@@ -31,4 +32,10 @@
 	 <delete id="commentDelete" parameterType="java.util.Map">
 	 	DELETE memoComment WHERE cno = #{cno}
 	 </delete>
+=======
+	 	ORDER BY cno DESC
+	 	
+	 
+	 </select>
+>>>>>>> branch 'main' of https://github.com/suggom/SpringProjCCH.git
 </mapper>
