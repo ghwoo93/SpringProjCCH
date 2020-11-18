@@ -64,4 +64,10 @@ public class IndexController {
 		//뷰정보 반환]
 		return "validation09/Validation";
 	}/////////////
+	
+	@RequestMapping("/dynamicsql.do")
+	public String dynamicsql() {
+		//뷰정보 반환]
+		return "dynamicsql10/DynamicSQL";
+	}/////////////
 }
