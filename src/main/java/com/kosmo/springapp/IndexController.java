@@ -70,4 +70,14 @@ public class IndexController {
 		//뷰정보 반환]
 		return "dynamicsql10/DynamicSQL";
 	}/////////////
+	@RequestMapping("/ajax.do")
+	public String ajax() {
+		//뷰정보 반환]
+		return "ajax11/Ajax";
+	}/////////////
+	@RequestMapping("/exception.do")
+	public String exception() {
+		//뷰정보 반환]
+		return "exception12/Exception";
+	}/////////////
 }

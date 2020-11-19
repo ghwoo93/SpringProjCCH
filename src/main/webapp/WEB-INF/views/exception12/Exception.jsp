@@ -1,5 +1,5 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ page contentType="text/html; charset=UTF-8"
+<%@ page session="false" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
@@ -9,7 +9,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- 위 3개의 메타 태그는 *반드시* head 태그의 처음에 와야합니다; 어떤 다른 콘텐츠들은 반드시 이 태그들 *다음에* 와야 합니다 -->
-<title>Home.jsp</title>
+<title>Controller.jsp</title>
 
 <!-- 부트스트랩 -->
 
@@ -22,8 +22,7 @@
       <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
-<!-- static resource 테스트용 -->   
-<link rel="stylesheet"	href="<c:url value="/styles/common.css"/>">
+
 <style>
 	body{
 		padding-top:70px;
@@ -56,14 +55,8 @@
 				</form>
 				<ul class="nav navbar-nav navbar-right">
 					<li><a href="<c:url value="/"/>">HOME</a></li>
-					<c:if test="${empty sessionScope.id}" var="isNotlogin">
-						<li><a href="<c:url value="/OneMemo/Auth/Login.do"/>">로그인</a></li>
-					</c:if>
-					<c:if test="${not isNotlogin }">
-						<li><a href="javascript:logout()">로그아웃</a></li>
-					</c:if>
-					<li><a href="<c:url value="/OneMemo/BBS/List.do"/>">한줄 댓글
-							게시판</a></li>
+					<li><a href="#">로그인</a></li>
+					<li><a href="#">자료실</a></li>
 					<li><a href="#">공지사항</a></li>
 				</ul>
 			</div>
@@ -72,43 +65,20 @@
 	<!--  상단 메뉴 끝 -->
 	<div class="container">
 		<!-- 점보트론(Jumbotron) -->
-		<div class="page-header">
+		<div class="jumbotron">
 			<h1>
-				스프링<small>프레임워크</small>
+				스프링<small>예외처리</small>
 			</h1>
-		</div>
-		<p>The time on the server is ${serverTime}.</p>
+		</div>		
 		<fieldset>
-			<legend>static resource(이미지,동영상,.css,.js파일등)표시방법</legend>
-			<h2>servlet-context.xml파일에 설정된 resources태그 사용-webapp/resources디렉토리 아래에  리소스 저장</h2>
-			<!-- 빈 설정파일  servlet-context.xml의 매핑명으로 경로 설정-->
-			<img src="<c:url value="/static/images/sumnail.png"/>" alt="매핑 이름으로"/>
-			
-			<h2>servlet-context.xml파일에 설정된 resources태그 사용-폴더 생성후 매핑이름 지정(폴더명과 같지 않아도 된다)</h2>
-			<img src="<c:url value="/images/sumnail.png"/>" alt="매핑 이름으로"/>
-			<h2>resources태그 미 사용-&lt;default-servlet-handler/&gt;-디렉토리명으로 접근</h2>
-			<img src="<c:url value="/images/sumnail.png"/>" alt="디렉토리 구조로 접근"/>
-		
+			<legend>예외처리 ${message}</legend>
+			<form method="post" action="<c:url value='/Exception/Exception.do'/>">
+				나이를 입력하세요?
+				<input type="text" name="years"/>
+				<input type="submit" value="확인"/>
+			</form>
+			${errorMsg }
 		</fieldset>
-		<fieldset>
-			<legend>스프링 익히기</legend>
-			<ul style="list-style:decimal">
-				<li><a href="<c:url value="/handlermapping.do"/>">핸들러 매핑</a></li>
-				<li><a href="<c:url value="/controller.do"/>">컨트롤러</a></li>
-				<li><a href="<c:url value="/viewresolver.do"/>">뷰 리졸버</a></li>
-				<li><a href="<c:url value="/returntype.do"/>">컨트롤러의 반환타입</a></li>
-				<li><a href="<c:url value="/injection.do"/>">Dependency Injection</a></li>
-				<li><a href="<c:url value="/annotation.do"/>">Annotation</a></li>
-				<li><a href="<c:url value="/database.do"/>">데이타베이스</a></li>
-				<li><a href="<c:url value="/resource.do"/>">리소스</a></li>
-				<li><a href="<c:url value="/validation.do"/>">유효성 검증</a></li>
-				<li><a href="<c:url value="/dynamicsql.do"/>">마이바티스 동적SQL</a></li>
-				<li><a href="<c:url value="/ajax.do"/>">Ajax 요청</a></li>
-				<li><a href="<c:url value="/exception.do"/>">예외처리</a></li>
-			</ul>
-		
-		</fieldset>
-		
 	</div>
 
 	
