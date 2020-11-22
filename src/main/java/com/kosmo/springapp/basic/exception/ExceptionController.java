@@ -45,6 +45,7 @@ public class ExceptionController {
 	//@ControllerAdvice 를 통해 모든 컨트롤러에서 발생하는 예외 처리 가능
 	@RequestMapping("/Exception/Exception.do")
 	public String execute(@RequestParam int years,Model model) {
+		
 		//데이타 저장]
 		model.addAttribute("message", "[당신의 10년후 나이는 : "+(years+10)+"살]");
 		//뷰정보 반환]

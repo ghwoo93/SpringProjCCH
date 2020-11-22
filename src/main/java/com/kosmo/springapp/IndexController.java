@@ -80,4 +80,14 @@ public class IndexController {
 		//뷰정보 반환]
 		return "exception12/Exception";
 	}/////////////
+	@RequestMapping("/fileupdown.do")
+	public String fileupdown() {
+		//뷰정보 반환]
+		return "fileupdown13/Upload";
+	}/////////////
+	@RequestMapping("/aop.do")
+	public String aop() {
+		//뷰정보 반환]
+		return "aop14/AOP";
+	}/////////////
 }

@@ -1,7 +1,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ page session="false" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -9,7 +9,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- 위 3개의 메타 태그는 *반드시* head 태그의 처음에 와야합니다; 어떤 다른 콘텐츠들은 반드시 이 태그들 *다음에* 와야 합니다 -->
-<title>DynamicSQL.jsp</title>
+<title>Controller.jsp</title>
 
 <!-- 부트스트랩 -->
 
@@ -24,9 +24,9 @@
     <![endif]-->
 
 <style>
-	body{
-		padding-top:70px;
-	}
+body {
+	padding-top: 70px;
+}
 </style>
 </head>
 <body>
@@ -40,8 +40,7 @@
 					<span class="icon-bar"></span> <span class="icon-bar"></span> <span
 						class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand"
-					href='<c:url value="/"/>'><span
+				<a class="navbar-brand" href='<c:url value="/"/>'><span
 					class="glyphicon glyphicon-education"></span> KOSMO</a>
 			</div>
 			<!-- 화면 크기가 클때 상단에 보여지는 메뉴(데스크탑용) -->
@@ -63,46 +62,54 @@
 		</div>
 	</nav>
 	<!--  상단 메뉴 끝 -->
+	<!-- 
+	※pom.xml에 commons-fileupload 디펜던시 추가
+	 commons-fileupload와 의존관계에 있는 commons-io도 자동으로
+	  다운된다
+	 -->
 	<div class="container">
 		<!-- 점보트론(Jumbotron) -->
 		<div class="jumbotron">
 			<h1>
-				마이바티스<small>동적 SQL</small>
+				스프링<small>파일 업로드/다운로드</small>
 			</h1>
-		</div>		
+		</div>
 		<fieldset>
-			<legend>동적 SQL<span style="color:red;font-size:1.5em">${message}</span></legend>
-			<h2>if문</h2>
-			<a href="<c:url value="/MyBatis/If1.do?title=제목"/>">WHERE절 일부에 사용 첫번째</a><br/>
-			
-			<a href="<c:url value="/MyBatis/If2.do?title=제목&name=이길동&content=내용"/>">WHERE절 일부에 사용 두번째</a>
-			<h2>choose~when~otherwise</h2>
-			<a href="<c:url value="/MyBatis/choose.do?title=제목&name=이길동&content=내용"/>">WHERE절 일부에 사용</a>
-			<!-- 아래 3개의 파라미터가 전달 안되도 에러 안남 -->
-			<h2>&lt;where&gt;</h2>
-			<a href="<c:url value="/MyBatis/where.do?title=제목&name=이길동&content=내용"/>">&lt;where&gt;</a>
-			<h2>&lt;trim&gt;</h2>
-			<!-- 아래 3개의 파라미터가 전달 안되도 에러 안남 -->
-			<a href="<c:url value="/MyBatis/trim1.do?title=제목&name=이길동&content=내용"/>">&lt;trim&gt;검색문</a><br/>
-			<a href="<c:url value="/MyBatis/trim2.do?no=7&title=제목&name=이길동&content=내용"/>">&lt;trim&gt;수정문</a>
-			<h2>&lt;set&gt;</h2>
-			<!-- update 하고자 하는 칼럼을 동적으로 포함시키기 위해 사용 -->
-			<a href="<c:url value="/MyBatis/set.do?no=6&title=제목"/>">&lt;set&gt;수정문</a>
-			<h2>&lt;foreach&gt;</h2>
-			<!-- update 하고자 하는 칼럼을 동적으로 포함시키기 위해 사용 -->
-			<a href="<c:url value="/MyBatis/foreach.do"/>">&lt;foreach&gt;</a>
+			<legend>파일업로드 폼</legend>
+			<a href="<c:url value='/FileUpDown/List.do'/>">파일 목록</a>
+
+			<form action="<c:url value='/FileUpDown/Upload.do'/>" method="post"	enctype="multipart/form-data">
+
+				<table cellspacing="1" bgcolor="gray">
+					<tr bgcolor="white">
+						<td>올린이</td>
+						<td><input type="text" name="writer" /></td>
+					</tr>
+					<tr bgcolor="white">
+						<td>제목</td>
+						<td><input type="text" name="title" size="50" /></td>
+					</tr>
+					<tr bgcolor="white">
+						<td>첨부파일</td>
+						<td><input type="file" name="upload" size="30" /></td>
+					</tr>
+					<tr bgcolor="white" align="center">
+						<td colspan="2"><input type="submit" value="업로드" /></td>
+					</tr>
+				</table>
+			</form>
+			<span style="color: red; font-size: 1.8em">${empty param.error ?'':'파일 용량 초과'}</span>
 		</fieldset>
-		
 	</div>
 
-	
-	
+
+
 	<!-- jQuery (부트스트랩의 자바스크립트 플러그인을 위해 필요합니다) -->
 	<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+		src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 	<!-- 모든 컴파일된 플러그인을 포함합니다 (아래), 원하지 않는다면 필요한 각각의 파일을 포함하세요 -->
 	<script
-	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
-	
+		src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+
 </body>
 </html>

@@ -20,6 +20,8 @@ public class DynamicSQLController {
 
 	@Resource(name="dynamic")
 	private DynamicSQLDao dynamic;
+	
+	
 	@RequestMapping("/If1.do")
 	public String if1(Model model,@RequestParam Map map) {
 		List list=dynamic.if1(map);
@@ -65,7 +67,7 @@ public class DynamicSQLController {
 	}//////////////
 	@RequestMapping("/foreach.do")
 	public String foreach(Model model) {
-		List lists = Arrays.asList(1,2,3);
+		List lists = Arrays.asList(8,9,10,11);
 		//1.List인 경우
 		//lists=dynamic.foreach(lists);
 		

@@ -24,8 +24,10 @@ import com.kosmo.springapp.onememo.service.OneMemoService;
 
 @Repository("dynamic")
 public class DynamicSQLDao{
+	
 	@Resource(name ="template")
 	private SqlSessionTemplate sqlMapper;
+	
 	public List if1(Map map) {
 		return sqlMapper.selectList("findOneMemoWithTitleLike",map);
 	}////////////////

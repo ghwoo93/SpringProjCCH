@@ -69,7 +69,8 @@
 	<select id="findOneMemoLikeTrim"    resultType="oneMemoDTO" parameterType="Map">
   		SELECT o.*,name FROM onememo o JOIN member m ON o.id=m.id
   		
-  		<trim prefix="where" prefixOverrides="AND">
+  		
+  		<trim prefix="where" prefixOverrides="AND" >
 			<if test="title != null">
 			    AND title LIKE '%' || #{title} || '%'
 			</if>
@@ -88,17 +89,22 @@
 				<if test="title != null">title=#{title},</if>
 				<if test="content != null">content=#{content},</if>				
 			</trim>
+			
 		WHERE no=#{no}
 
 	</update>
 	<update id="updateOneMemoSet" parameterType="Map">
 		
 		UPDATE onememo
-			<set>
-				<if test="title != null">title=#{title},</if>
-				<if test="content != null">content=#{content},</if>				
-			</set>
-		WHERE no=#{no}
+		<set>
+			<if test="title != null">title=#{title},</if>
+			<if test="content != null">content=#{content},</if>				
+		</set>
+			
+		<if test="content !=null">	
+			WHERE no=#{no}
+		</if>
+		
 		
 	</update>
 	<!-- 
@@ -133,9 +139,10 @@
 	<select id="findOneMemoForeach" parameterType="Map" resultType="oneMemoDTO">
 		SELECT *
   		FROM onememo
-  		WHERE no in
+  		WHERE no iN
   		<foreach item="item"  collection="keyno"	open="(" separator="," close=")">
         	#{item}
   		</foreach>
+  		
 	</select>
 </mapper>
