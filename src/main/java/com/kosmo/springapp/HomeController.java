@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+
 import com.kosmo.springapp.onememo.service.impl.OneMemoDAO;
 
 
@@ -22,6 +23,7 @@ import com.kosmo.springapp.onememo.service.impl.OneMemoDAO;
  */
 @Controller
 public class HomeController {
+
 
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 	
@@ -39,7 +41,7 @@ public class HomeController {
 		
 		model.addAttribute("serverTime", formattedDate );
 		
-		return "home";
+		return "home.tiles";
 	}
 	
 }

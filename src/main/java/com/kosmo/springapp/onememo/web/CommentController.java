@@ -6,6 +6,8 @@ import java.util.Map;
 import javax.annotation.Resource;
 
 import org.json.simple.JSONArray;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,21 +17,24 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.kosmo.springapp.onememo.service.MemoCommentService;
 
-@SessionAttributes({"id"})//씨큐리티 사용시 주석
+//@SessionAttributes({"id"})//씨큐리티 사용시 주석
 @Controller
 @RequestMapping("/OneMemo/Comment/")
 public class CommentController {
 	//서비스 주입]
 	@Resource(name="commentService")
 	private MemoCommentService commentService;
+	
 	//코멘트 입력처리]
 	@RequestMapping(value="Write.do",produces = "text/html; charset=UTF-8")
 	@ResponseBody
 	public String write(
-			@ModelAttribute("id") String id, 
+			//@ModelAttribute("id") String id, 
+			Authentication auth,
 			@RequestParam Map map) {
 		//서비스 호출]
-		map.put("id", id);//한줄 댓글 작성자의 아이디를 맵에 설정
+		//map.put("id", id);//(씨큐리티 미 사용시)한줄 댓글 작성자의 아이디를 맵에 설정
+		map.put("id", ((UserDetails)auth.getPrincipal()).getUsername());
 		commentService.insert(map);
 		return map.get("no").toString();//원본글의 번호 반환
 	}/////////////////

@@ -90,4 +90,17 @@ public class IndexController {
 		//뷰정보 반환]
 		return "aop14/AOP";
 	}/////////////
+	@RequestMapping("/websocket.do")
+	public String websocket() {
+		//뷰정보 반환]
+		return "websocket15/Websocket";
+	}/////////////
+	@RequestMapping("/tiles.do")
+	public String tiles() {
+		//뷰정보 반환]
+		//tiles16/Tiles.tiles이 다음 설정(/WEB-INF/views/{1}/{2}.jsp)을 적용받아
+		//{1}부분이 tiles16으로 {2} Tiles로 tiles는 jsp로 매핑된다
+		//즉 WEB-INF/views/tiles16/Tiles.jsp 뷰가 서비스된단
+		return "tiles16/Tiles.tiles";
+	}/////////////
 }
