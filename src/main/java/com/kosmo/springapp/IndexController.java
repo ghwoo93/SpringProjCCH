@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 알려주는 역할]-컨트롤러 클래스
 */
 
+
 //컨트롤러 클래스
 @Controller
 public class IndexController {

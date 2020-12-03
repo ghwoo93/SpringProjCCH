@@ -7,10 +7,34 @@
 <!-- 모든 컴파일된 플러그인을 포함합니다 (아래), 원하지 않는다면 필요한 각각의 파일을 포함하세요 -->
 <script	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 <script>
+	
+	function isLogin(){
+		//ajax로 요청-로그인 여부 판단
+		$.ajax({
+			url:"<c:url value='/OneMemo/Auth/IsLogin.do'/>",
+			dataType:'json',
+			success:function(data){
+				if(data.isLogin =='YES')//로그인 되었다면
+					//목록페이지로 이동
+					location.replace("<c:url value='/OneMemo/BBS/List.do'/>");
+				else{//로그인 안되었다면
+					alert("로그인 후 이용하세요");
+					location.replace("<c:url value='/OneMemo/Auth/Login.do'/>");
+					
+				}
+					
+			},
+			error:function(e){console.log(e);}
+			
+		});
+		
+	}///////////
+	
 	function logout(){
 		//location.replace("<c:url value="/OneMemo/Auth/Logout.do"/>");
 		$('#logoutForm').submit();//스프링 씨큐리티의 csrf공격 사용시
-	}	
+	}/////////////////
+	
 </script>
 <style>
 	body {
@@ -69,9 +93,11 @@
 				<sec:authorize access="isAuthenticated()">
 					<li><a href="javascript:logout()">로그아웃</a></li>
 				</sec:authorize>
-				
-				<li><a href="<c:url value="/OneMemo/BBS/List.do"/>">한줄 댓글
-						게시판</a></li>
+				<!--  
+				<li><a href="<c:url value="/OneMemo/BBS/List.do"/>">한줄 댓글 게시판</a></li>
+				-->
+				<!-- ajax로 로그인 여부 판단후 이동시키자 -->
+				<li><a href="javascript:isLogin()">한줄 댓글 게시판</a></li>
 				<li><a href="#">공지사항</a></li>
 			</ul>
 		</div>

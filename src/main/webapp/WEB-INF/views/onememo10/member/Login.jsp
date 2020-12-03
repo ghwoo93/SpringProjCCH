@@ -64,7 +64,7 @@
 				<button class="close" data-dismiss="alert">
 					<span>&times;</span>
 				</button>
-				아이디와 비번이 틀려요
+				인증이 안된 사용자입니다.
 			</div>
 		</div>
 	</c:if>

@@ -71,7 +71,7 @@ public class OneMemoController {
 	@RequestMapping("List.do")
 	public String list(
 			//@ModelAttribute("id") String id,//(씨큐리티 미 사용시)세션영역에서 id가져오기-isLogin.jsp파일 사용시 불필요
-			Authentication auth,//씨큐리티 사용시
+			Authentication auth,//씨큐리티 사용시(인증이 안된 사용자는 <security:form-login>태그의 login-page속성에 지정한 페이지로 바로 리다이렉트 됨)
 			@RequestParam Map map,
 			@RequestParam(required = false,defaultValue = "1") int nowPage,
 			HttpServletRequest req,//컨텍스트 루트 얻기용
